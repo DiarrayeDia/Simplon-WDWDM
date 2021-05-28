@@ -86,7 +86,7 @@
 
         <?php
             // Etape 4 : A afficher uniquement si "non" a été répondu à l'étape 3 
-        } elseif ($_GET['step'] === '4') {
+        } elseif ($_GET['step'] === '4n') {
 
         ?>
             <p>Votre problème n'a pas été résolu.</p>
@@ -98,6 +98,13 @@
             <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required>
 
             <medium> Format: 0124567890 <br></medium>
+
+            <?php for ($i = 0; $i < 10; $i++) { ?>
+
+                <a href="?step=4n&result=<?= $_GET['result'] ?>&phone=<?= $_GET['phone'] . $i ?>" role="button" class="btn btn-secondary"><?= $i ?><br></a>
+
+            <?php   } ?>
+
             <a href="?" role="button" class="btn btn-success">Valider</a>
 
         <?php
