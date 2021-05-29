@@ -20,15 +20,16 @@
     function rating()
     {
         $rate = '';
-        for ($points = 0; $points < $_GET['result']; $points++) {
+        for ($i = 0; $i < $_GET['result']; $i++) {
             $rate .= '⭐️';
         }
 
         if ($_GET['result'] === "-1") {
             $_GET['result'] === "0";
         }
-        while ($points < 5) {
+        while ($i < 5) {
             $rate .= '⚫️';
+            $i++;
         }
         return $rate;
     }
@@ -59,7 +60,7 @@
 
 
             <a href="?step=2&result=<?= $_GET['result'] + 2 ?>" role="button" class="btn btn-success">oui</a> <!-- rapporte 2 point -->
-            <a href="?step=2&result=<?= $_GET['result'] ?>" role="button" class="btn btn-danger">non</a> <!-- rapporte 0 point -->
+            <a href="?step=2&result=<?= $_GET['result'] + 0 ?>" role="button" class="btn btn-danger">non</a> <!-- rapporte 0 point -->
             <a href="?step=2&result=<?= $_GET['result'] + 1 ?>" role="button" class="btn btn-secondary">sans avis</a> <!-- rapporte 1 point -->
 
         <?php
@@ -70,7 +71,7 @@
             <h2>Question 2</h2>
             <p>L'agent a-t-il compris votre problème ?</p>
             <a href="?step=3&result=<?= $_GET['result'] + 2 ?>" role="button" class="btn btn-success">oui</a> <!-- rapporte 2 point -->
-            <a href="?step=3&result=<?= $_GET['result'] ?>" role="button" class="btn btn-danger">non</a> <!-- rapporte 0 point -->
+            <a href="?step=3&result=<?= $_GET['result'] + 0 ?>" role="button" class="btn btn-danger">non</a> <!-- rapporte 0 point -->
             <a href="?step=3&result=<?= $_GET['result'] + 1 ?>" role="button" class="btn btn-secondary">sans avis</a> <!-- rapporte 1 point -->
 
 
@@ -82,7 +83,7 @@
             <h2>Question 3</h2>
             <p>L'agent a-t-il résolu votre problème ?</p>
             <a href="?step=4&result=<?= $_GET['result'] + 1 ?>" role="button" class="btn btn-success">oui</a> <!-- rapporte 1 point -->
-            <a href="?step=4n&result=<?= $_GET['result'] - 1 ?>&choice=no&phone" role="button" class="btn btn-danger">non</a> <!-- rapporte -1 point -->
+            <a href="?step=4n&result=<?= $_GET['result'] - 1 ?>&tel" role="button" class="btn btn-danger">non</a> <!-- rapporte -1 point -->
 
         <?php
             // Etape 4 : A afficher uniquement si "non" a été répondu à l'étape 3 
@@ -93,30 +94,37 @@
 
             <!--Afficher ici le numéro de téléphone qui s'affiche au fur et à mesure de la saisie -->
 
-            <label for="phone">Pour être rappelé, entrez votre numéro de téléphone dans le clavier virtuel et validez : <br> </label>
+            <p>Pour être rappelé, entrez votre numéro de téléphone dans le clavier virtuel et validez : <br> </p>
 
-            <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required>
+            <?php for ($i = 0; $i < 10; $i++) {
 
-            <medium> Format: 0124567890 <br></medium>
+            ?>
 
-            <?php for ($i = 0; $i < 10; $i++) { ?>
+                <a href="?step=4n&result=<?= $_GET['result'] ?>&tel=<?= $_GET['tel'] . $i ?>" role="button" class="btn btn-secondary"><?= $i ?></a>
+            <?php
+            }
 
-                <a href="?step=4n&result=<?= $_GET['result'] ?>&phone=<?= $_GET['phone'] . $i ?>" role="button" class="btn btn-secondary"><?= $i ?><br></a>
-
-            <?php   } ?>
-
-            <a href="?" role="button" class="btn btn-success">Valider</a>
+            ?>
+            <p> <?= $_GET['tel'] ?></p>
+            <a href="?step=4&result=<?= $_GET['result'] ?>&tel=<?= $_GET['tel']  ?> " role="button" class="btn btn-success">Valider</a>
 
         <?php
             // Etape finale : A afficher si "oui" a été répondu à la question 3 ou si l'étape 4 a été résolue 
         } elseif ($_GET['step'] === '4') {
+            $rate = rating($_GET['result']);
 
         ?>
             <p class="mt-5">Merci pour votre notation :
-                <?= rating(); ?>
-            </p> <!-- le nombre d\'étoiles représente le nombre de points cumulés -->
+                <?= $rate ?>
+            </p> <!-- le nombre d'étoiles représente le nombre de points cumulés -->
 
-            <!--Si un téléphone à été saisi, afficher "Vous serez rappelé très prochainement au #numéro de téléphone#"  -->
+            <?php
+            if (isset($_GET['tel'])) {
+            ?>
+                <p>Vous serez rappelé très prochainement au <?= $_GET['tel'] ?></p>
+            <?php
+            }
+            ?>
             <p class="mt-5">
                 <a href="?" role="button" class="btn btn-danger">Recommencer</a></p>
 
