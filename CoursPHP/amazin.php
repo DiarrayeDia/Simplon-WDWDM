@@ -107,7 +107,7 @@
             ?>
             <p> <?= $_GET['tel'] ?></p>
             <a href="?step=4&result=<?= $_GET['result'] ?>&tel=<?= $_GET['tel']  ?> " role="button" class="btn btn-success">Valider</a>
-
+            <a href="?step=4&result=<?= $_GET['result'] ?>" role="button" class="btn btn-warning">Ne pas être rappelé.e !</a>
         <?php
             // Etape finale : A afficher si "oui" a été répondu à la question 3 ou si l'étape 4 a été résolue 
         } elseif ($_GET['step'] === '4') {
