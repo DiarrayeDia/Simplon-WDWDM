@@ -103,8 +103,11 @@
                 <a href="?step=4n&result=<?= $_GET['result'] ?>&tel=<?= $_GET['tel'] . $i ?>" role="button" class="btn btn-secondary"><?= $i ?></a>
             <?php
             }
-
+            // Options pour corriger ou retaper son numéro de téléphone
             ?>
+            <a href="?step=4n&result=<?= $_GET['result'] ?>&tel=<?= substr($_GET['tel'], 0, -1) ?> " role="button" class="btn btn-primary">Corriger</a>
+            <a href="?step=4n&result=<?= $_GET['result'] ?>&tel=" role="button" class="btn btn-primary">Réinitialiser</a>
+
             <p> <?= $_GET['tel'] ?></p>
             <a href="?step=4&result=<?= $_GET['result'] ?>&tel=<?= $_GET['tel']  ?> " role="button" class="btn btn-success">Valider</a>
             <a href="?step=4&result=<?= $_GET['result'] ?>" role="button" class="btn btn-warning">Ne pas être rappelé.e !</a>
